@@ -7,6 +7,8 @@ class Board {
     this.row3 = [undefined, undefined, undefined];
     this.grid = [this.row1, this.row2, this.row3];
     this.shipCounter = 1;
+    this.shipSunk = false;
+    this.j = 0;
   }
 }
 
@@ -38,32 +40,45 @@ const attack = function(location) {
   location[0].toUpperCase();
   let y = alphabet.lastIndexOf(location[0]);
   let x = numbers.lastIndexOf(location[1]);
-
   if (board1.grid[y][x] != undefined && board1.grid[y][x] != 'Miss!') {
     board1.grid[y][x] = 'Hit!'
-    console.log('Hit.you have sunk a battleship');
+    console.log('Hit.You have sunk a battleship');
+    board1.j += 1;
+    if (board1.j == 2) {
+      board1.shipSunk = true;
+      console.log(board1.shipSunk);
+    }
   }
   else if (board1.grid[y][x] == 'Miss!') {
-    console.log('you have already picked this location. Miss!');
+    console.log('You have already picked this location.Miss!');
   }
   else {
     board1.grid[y][x] = 'Miss!';
-    console.log('you have missed');
+    console.log('You have missed');
   }
 }
 
+let answer = true;
+let key = '';
 
 
-let key = readlineSync.keyInYN('Press any key to start the game.');
-spawnShips(board1);
+while (answer != false) {
+key = readlineSync.keyInYN('Press any key to start the game.');
+spawnShips();
 console.log(board1.row1);
 console.log(board1.row2);
 console.log(board1.row3);
+while (board1.shipSunk == false) {
 let target = readlineSync.question('Enter a location to strike ie "A2"'); 
 attack(target);
+console.log(board1.shipSunk);
 console.log(board1.row1);
 console.log(board1.row2);
 console.log(board1.row3);
+}
+answer = readlineSync.keyInYN('You have destroyed all battleships. Would you like to play again?');
+}
+
 console.log(board1.shipCounter);
 
 
