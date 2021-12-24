@@ -11,7 +11,6 @@ class Board {
 }
 
 const board1 = new Board();
-
 const spawnShips = () => {
   let k = 0;
   while (k < 2) {
@@ -29,15 +28,39 @@ const spawnShips = () => {
         }
       }
     }
-  k += 1;
+    k += 1;
+  }
+}
+
+const attack = function(location) {
+  let alphabet = 'ABC';
+  let numbers = '123';
+  location[0].toUpperCase();
+  let y = alphabet.lastIndexOf(location[0]);
+  let x = numbers.lastIndexOf(location[1]);
+
+  if (board1.grid[y][x] != undefined && board1.grid[y][x] != 'Miss!') {
+    board1.grid[y][x] = 'Hit!'
+    console.log('Hit.you have sunk a battleship');
+  }
+  else if (board1.grid[y][x] == 'Miss!') {
+    console.log('you have already picked this location. Miss!');
+  }
+  else {
+    board1.grid[y][x] = 'Miss!';
+    console.log('you have missed');
   }
 }
 
 
 
 let key = readlineSync.keyInYN('Press any key to start the game.');
-spawnShips();
-let target = readlineSync.question('Enter a spawnShips to strike ie "A2"'); 
+spawnShips(board1);
+console.log(board1.row1);
+console.log(board1.row2);
+console.log(board1.row3);
+let target = readlineSync.question('Enter a location to strike ie "A2"'); 
+attack(target);
 console.log(board1.row1);
 console.log(board1.row2);
 console.log(board1.row3);
